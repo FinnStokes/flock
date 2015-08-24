@@ -28,7 +28,7 @@ def main(screenRes):
     #splash_rect = splash_screen.get_rect()
     #splash_rect.center = screenRect.center
 
-    f = flock.Flock(100)
+    f = flock.Flock(25)
     
     # Initialise clock
     clock = pygame.time.Clock()

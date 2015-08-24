@@ -84,12 +84,16 @@ class Agent:
                 d2 = self.pos.dist2(n.pos)
                 if d2 > thresh:
                     thresh = d2
-            calc_d2 = lambda n: (self.pos.dist2(n.pos), n)
-            self.neighbors = [(d2, n) for d2, n in map(calc_d2, self.flock) if d2 <= thresh and n != self]
+            calc_d2 = lambda n: ((n.pos.x - self.pos.x)**2 + (n.pos.y - self.pos.y)**2 + (n.pos.z - self.pos.z)**2, n)
+            nearby_flock = (a for a in self.flock if a.pos.x - self.pos.x <= thresh and self.pos.x - a.pos.x <= thresh and a.pos.y - self.pos.y <= thresh and self.pos.y - a.pos.y <= thresh and a.pos.z - self.pos.z <= thresh and self.pos.z - a.pos.z <= thresh)
+            self.neighbors = [(d2, n) for d2, n in map(calc_d2, nearby_flock) if d2 <= thresh and n != self]
             # for n in self.flock:
+            #     if n == self:
+            #         continue
+            #     #if abs(self.pos.x - n.pos.y) > 
             #     d2 = self.pos.dist2(n.pos)
             #     if d2 <= thresh:
-            #         self.neighbors.append([(d2, n)])
+            #         self.neighbors += [(d2, n)]
             if len(self.neighbors) > 7:
                 self.neighbors.sort()
                 self.neighbors = self.neighbors[:7]
